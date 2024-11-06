@@ -13,56 +13,54 @@ To write a YACC program to recognize the grammar anb where n>=10.
 8.	Enter a string as input and it is identified as valid or invalid.
 # PROGRAM
 ```
-Program name:ex4.l
+/*
+Program developed by : Thanika sree B
+register no: 212222100055
+*/
+```
+```
 %{
-/* This LEX program returns the tokens for the Expression */
-#include"y.tab.h"
+#include "y.tab.h"
 %}
+
 %%
-"int" {return INT;}
-"float" {return FLOAT;}
-"double" {return DOUBLE;}
-[a-zA-Z]*[0-9]* {printf("\nIdentifier is %s",yytext);
-return ID;
-}
-. return yytext[0];
-\n return 0;
+a    { return A; }  // Recognize 'a' as token A
+b    { return B; }  // Recognize 'b' as token B
+.    { return 0; }  // End of input
 %%
-int yywrap()
-{
-return 1;
+
+int yywrap() {
+    return 1;
 }
-Program name:ex4.y
+```
+```
 %{
-#include<stdio.h>
-/* This YACC program is for recognising the Expression*/
- %}
-%token ID INT FLOAT DOUBLE
+#include <stdio.h>
+int yylex(void);
+void yyerror(const char *s);
+%}
+
+%token A B
+
 %%
-D: T L
-;
-L: L,ID
-| ID
-;
-T: INT
-| FLOAT
-| DOUBLE
-;
+S   : A A A A A A A A A A B    { printf("Valid string\n"); }
+    | A S B                    { printf("Valid string\n"); }
+    ;
+
 %%
-extern FILE*yyin;
-main()
-{
-do
-{
-yyparse();
-}while(!feof(yyin));
+
+int main() {
+    printf("Enter a string:\n");
+    yyparse();
+    return 0;
 }
-yyerror(char*s)
-{
+
+void yyerror(const char *s) {
+    printf("Invalid string\n");
 }
 ```
 # OUTPUT
-![image](https://github.com/user-attachments/assets/8500206a-9e9c-4441-bdba-1db13e24491a)
+![image](https://github.com/user-attachments/assets/71b559bd-7a05-4d12-a0e5-e251f4db8e3e)
 
 # RESULT
 The YACC program to recognize the grammar anb where n>=10 is executed successfully and the output is verified.
